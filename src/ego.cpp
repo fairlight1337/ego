@@ -2,6 +2,7 @@
 #include <ros/ros.h>
 
 #include "classes/RobotHead.h"
+#include "classes/RobotBase.h"
 #include "classes/Visualization.h"
 
 using namespace std;
@@ -9,9 +10,11 @@ using namespace std;
 
 int main(int argc, char **argv) {
   ros::init(argc, argv, "ego");
+  ros::NodeHandle handleNode;
   
   // Initialize robot components
-  RobotHead head;
+  RobotHead head();
+  RobotBase base(handleNode);
   ROS_INFO("Initialized robot components.");
 
   // Initialize visualization and gui
