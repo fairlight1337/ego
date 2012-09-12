@@ -31,7 +31,9 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
 rosbuild_add_library(ego
   src/classes/RobotHead.cpp
+  src/classes/Camera.cpp
   src/classes/RobotBase.cpp
   src/classes/Visualization.cpp)
 rosbuild_add_executable(ego src/ego.cpp)
 target_link_libraries(ego /usr/lib/libboost_thread.so.1.46.1)
+target_link_libraries(ego /usr/lib/libglfw.so)
