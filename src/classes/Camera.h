@@ -6,6 +6,8 @@
 #include <image_transport/image_transport.h>
 #include <GL/glfw.h>
 #include <string>
+#include <cv_bridge/CvBridge.h>
+#include <opencv2/opencv.hpp>
 
 using namespace std;
 
