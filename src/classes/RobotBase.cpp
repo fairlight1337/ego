@@ -1,9 +1,9 @@
 #include "RobotBase.h"
 
 
-RobotBase::RobotBase(ros::NodeHandle handleNode) {
+RobotBase::RobotBase(ros::NodeHandle handleNode, string strTopic) {
   m_handleNode = handleNode;
-  m_pubVelocity = m_handleNode.advertise<geometry_msgs::Twist>("cmd_vel", 1);
+  m_pubVelocity = m_handleNode.advertise<geometry_msgs::Twist>(strTopic, 1);
 }
 
 RobotBase::~RobotBase() {
