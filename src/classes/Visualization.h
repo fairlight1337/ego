@@ -3,6 +3,8 @@
 
 #include <ros/ros.h>
 #include <GL/glfw.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
 #include <boost/thread.hpp>
 
 class Visualization {
@@ -10,6 +12,7 @@ class Visualization {
   bool m_bInitialized;
   boost::mutex m_mtxCameraFrame;
   GLFWimage m_imgCameraFrame;
+  GLuint m_unTexture;
 
  public:
   Visualization();
