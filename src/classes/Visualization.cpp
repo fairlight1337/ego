@@ -49,6 +49,10 @@ void Visualization::setQuitCallback(GLFWwindowclosefun fncQuitCallback) {
   glfwSetWindowCloseCallback(fncQuitCallback);
 }
 
+void Visualization::setKeyboardInputCallback(GLFWkeyfun fncKeyboardInputCallback) {
+  glfwSetKeyCallback(fncKeyboardInputCallback);
+}
+
 void Visualization::setCameraFrame(GLFWimage imgCameraFrame) {
   m_mtxCameraFrame.lock();
 

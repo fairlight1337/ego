@@ -20,6 +20,7 @@ class Visualization {
 
   bool startVisualization();
   void setQuitCallback(GLFWwindowclosefun fncQuitCallback);
+  void setKeyboardInputCallback(GLFWkeyfun fncKeyboardInputCallback);
   
   void setCameraFrame(GLFWimage imgCameraFrame);
 
