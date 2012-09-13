@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
   // Initialize robot components
   RobotHead head;
   RobotBase base(handleNode);
-  Camera cam(handleNode, "/wide_stereo/left/image_raw");
+  Camera cam(handleNode, "/wide_stereo/left/image_color");
   ROS_INFO("Initialized robot components.");
 
   // Initialize visualization and gui
@@ -35,6 +35,8 @@ int main(int argc, char **argv) {
   vis.startVisualization();
   vis.setQuitCallback(guiQuit);
   ROS_INFO("Initialized visualization and gui.");
+
+  base.sendVelocity(10.0, 10.0, -10.0);
   
   bRunning = true;
   while(bRunning) {
@@ -48,5 +50,7 @@ int main(int argc, char **argv) {
     vis.drawFrame();
   }
   
+  base.sendVelocity(0.1, 0.0, 0.0);
+
   return EXIT_SUCCESS;
 }
