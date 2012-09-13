@@ -9,11 +9,16 @@
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/ego</url>
 
+  <rosdep name="libglfw-dev"/>
+  <rosdep name="libglfw2"/>
+
   <depend package="roscpp"/>
   <depend package="actionlib"/>
-  <depend package="actionlib_msgs" />
+  <depend package="actionlib_msgs"/>
   <depend package="pr2_controllers_msgs"/>
   <depend package="move_base_msgs"/>
+  <depend package="image_transport"/>
+  <depend package="sensor_msgs"/>
 
 </package>
 
