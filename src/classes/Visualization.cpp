@@ -35,6 +35,12 @@ void Visualization::setQuitCallback(GLFWwindowclosefun fncQuitCallback) {
   glfwSetWindowCloseCallback(fncQuitCallback);
 }
 
+void Visualization::setCameraFrame(GLFWimage imgCameraFrame) {
+  m_mtxCameraFrame.lock();
+  m_imgCameraFrame = imgCameraFrame;
+  m_mtxCameraFrame.unlock();
+}
+
 void Visualization::drawFrame() {
   drawCameraFrame();
   drawInterface();
@@ -43,6 +49,11 @@ void Visualization::drawFrame() {
 }
 
 void Visualization::drawCameraFrame() {
+  m_mtxCameraFrame.lock();
+
+  // Draw image here
+
+  m_mtxCameraFrame.unlock();
 }
 
 void Visualization::drawInterface() {

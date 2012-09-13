@@ -3,10 +3,13 @@
 
 #include <ros/ros.h>
 #include <GL/glfw.h>
+#include <boost/thread.hpp>
 
 class Visualization {
  private:
   bool m_bInitialized;
+  boost::mutex m_mtxCameraFrame;
+  GLFWimage m_imgCameraFrame;
 
  public:
   Visualization();
@@ -14,6 +17,8 @@ class Visualization {
 
   bool startVisualization();
   void setQuitCallback(GLFWwindowclosefun fncQuitCallback);
+  
+  void setCameraFrame(GLFWimage imgCameraFrame);
 
   void drawFrame();
   void drawCameraFrame();
