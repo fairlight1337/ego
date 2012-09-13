@@ -37,3 +37,4 @@ rosbuild_add_library(ego
 rosbuild_add_executable(ego src/ego.cpp)
 target_link_libraries(ego /usr/lib/libboost_thread.so.1.46.1)
 target_link_libraries(ego /usr/lib/libglfw.so)
+target_link_libraries(ego /usr/lib32/libGLU.so)
