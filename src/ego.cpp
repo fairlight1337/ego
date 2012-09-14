@@ -76,6 +76,7 @@ int main(int argc, char **argv) {
   vis.setKeyboardInputCallback(guiInputKeyboard);
   ROS_INFO("Initialized visualization and gui.");
 
+  // Set ROS and environment parameters
   ros::Rate rate(10.0);
     
   bRunning = true;
