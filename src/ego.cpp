@@ -75,9 +75,9 @@ int main(int argc, char **argv) {
   vis.setQuitCallback(guiQuit);
   vis.setKeyboardInputCallback(guiInputKeyboard);
   ROS_INFO("Initialized visualization and gui.");
+
+  ros::Rate rate(10.0);
     
-  //base.sendVelocity(1.0, 1.0, 0.0);
-  
   bRunning = true;
   while(bRunning) {
     // ROS cycle
@@ -115,7 +115,5 @@ int main(int argc, char **argv) {
     base.sendVelocity(fForward, fSidewards, fTurning);
   }
   
-  base.sendVelocity(0.0, 0.0, 0.0);
-
   return EXIT_SUCCESS;
 }

@@ -109,27 +109,29 @@ void Visualization::drawCameraFrame() {
 
   m_mtxCameraFrame.lock();
   
-  float fQuadHeight = 2;
-  float fQuadWidth = fQuadHeight * m_imgCameraFrame.Width / m_imgCameraFrame.Height;
-
-  glBindTexture(GL_TEXTURE_2D, m_unTexture);
-  
-  glTranslatef(0, 0, -2.65);
-  glBegin(GL_QUADS);
-  {
-    glColor3f(1, 1, 1);
+  if(m_imgCameraFrame.Data != NULL) {
+    float fQuadHeight = 2;
+    float fQuadWidth = fQuadHeight * m_imgCameraFrame.Width / m_imgCameraFrame.Height;
     
-    glVertex2f(fQuadWidth / 2, fQuadHeight / 2);
-    glTexCoord2d(0, 1);
-    glVertex2f(fQuadWidth / 2, -fQuadHeight / 2);
-    glTexCoord2d(1, 1);
-    glVertex2f(-fQuadWidth / 2, -fQuadHeight / 2);
-    glTexCoord2d(1, 0);
-    glVertex2f(-fQuadWidth / 2, fQuadHeight / 2);
-    glTexCoord2d(0, 0);
+    glBindTexture(GL_TEXTURE_2D, m_unTexture);
+    
+    glTranslatef(0, 0, -2.65);
+    glBegin(GL_QUADS);
+    {
+      glColor3f(1, 1, 1);
+      
+      glVertex2f(fQuadWidth / 2, fQuadHeight / 2);
+      glTexCoord2d(0, 1);
+      glVertex2f(fQuadWidth / 2, -fQuadHeight / 2);
+      glTexCoord2d(1, 1);
+      glVertex2f(-fQuadWidth / 2, -fQuadHeight / 2);
+      glTexCoord2d(1, 0);
+      glVertex2f(-fQuadWidth / 2, fQuadHeight / 2);
+      glTexCoord2d(0, 0);
+    }
+    glEnd();
   }
-  glEnd();
-  
+
   m_mtxCameraFrame.unlock();
 }
 
