@@ -32,16 +32,23 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <iostream>
+#include <malloc.h>
 
 using namespace std;
 
+
 class Map {
  private:
+  unsigned int m_unXDimension;
+  unsigned int m_unYDimension;
+  char *m_cMapData;
   
  public:
-  Map();
+  Map(unsigned int unXDimension, unsigned int unYDimension);
   ~Map();
   
+  void setMapTile(unsigned int unX, unsigned int unY, char cValue);
+  char getMapTile(unsigned int unX, unsigned int unY);
   void drawMap();
 };
 

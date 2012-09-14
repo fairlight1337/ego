@@ -1,10 +1,31 @@
 #include "Map.h"
 
 
-Map::Map() {
+Map::Map(unsigned int unXDimension, unsigned int unYDimension) {
+  // Initialize an unknown map
+  m_unXDimension = unXDimension;
+  m_unYDimension = unYDimension;
+  
+  m_cMapData = (char*)malloc(m_unXDimension * m_unYDimension);
+  
+  for(unsigned int unX = 0; unX < m_unXDimension; unX++) {
+    for(unsigned int unY = 0; unY < m_unYDimension; unY++) {
+      // Per definition: -1: unknown, 0: free, 1: obstructed
+      setMapTile(unX, unY, -1);
+    }
+  }
 }
 
 Map::~Map() {
+  free(m_cMapData);
+}
+
+void Map::setMapTile(unsigned int unX, unsigned int unY, char cValue) {
+  m_cMapData[unY * m_unYDimension + unX] = cValue;
+}
+
+char Map::getMapTile(unsigned int unX, unsigned int unY) {
+  return m_cMapData[unY * m_unYDimension + unX];
 }
 
 void Map::drawMap() {
