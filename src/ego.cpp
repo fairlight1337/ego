@@ -113,7 +113,13 @@ int main(int argc, char **argv) {
       fTurning = -1.0;
     }
 
-    base.sendVelocity(fForward, fSidewards, fTurning);
+    // Make sure we're not sending velocity commands when there is
+    // nothing to send. This way, we don't interfere with other nodes
+    // that actually send commands. This is useful for just observing
+    // what's going on.
+    if(fForward != 0.0 || fSidewards != 0.0 || fTurning != 0.0) {
+      base.sendVelocity(fForward, fSidewards, fTurning);
+    }
   }
   
   return EXIT_SUCCESS;
