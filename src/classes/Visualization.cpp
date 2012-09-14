@@ -35,6 +35,8 @@ Visualization::Visualization() {
     glfwGetVersion(&nMajor, &nMinor, &nRev);
     ROS_INFO("Running GLFW version %d.%d (rev %d)", nMajor, nMinor, nRev);
     m_imgCameraFrame.Data = NULL;
+
+    m_mapMap = new Map();
   } else {
     ROS_INFO("GLFW failed to initialize.");
   }
@@ -136,4 +138,9 @@ void Visualization::drawCameraFrame() {
 }
 
 void Visualization::drawInterface() {
+  drawMap();
+}
+
+void Visualization::drawMap() {
+  m_mapMap->drawMap();
 }

@@ -25,39 +25,24 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef __VISUALIZATION_H__
-#define __VISUALIZATION_H__
+#ifndef __MAP_H__
+#define __MAP_H__
 
-#include <ros/ros.h>
 #include <GL/glfw.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include <boost/thread.hpp>
+#include <iostream>
 
-#include "Map.h"
+using namespace std;
 
-class Visualization {
+class Map {
  private:
-  bool m_bInitialized;
-  boost::mutex m_mtxCameraFrame;
-  GLFWimage m_imgCameraFrame;
-  GLuint m_unTexture;
-  Map *m_mapMap;
-
- public:
-  Visualization();
-  ~Visualization();
-
-  bool startVisualization();
-  void setQuitCallback(GLFWwindowclosefun fncQuitCallback);
-  void setKeyboardInputCallback(GLFWkeyfun fncKeyboardInputCallback);
   
-  void setCameraFrame(GLFWimage imgCameraFrame);
-
-  void drawFrame();
-  void drawCameraFrame();
-  void drawInterface();
+ public:
+  Map();
+  ~Map();
+  
   void drawMap();
 };
 
-#endif /* __VISUALIZATION_H__ */
+#endif /* __MAP_H__ */

@@ -32,6 +32,7 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 rosbuild_add_library(ego
   src/classes/RobotHead.cpp
   src/classes/Camera.cpp
+  src/classes/Map.cpp
   src/classes/RobotBase.cpp
   src/classes/Visualization.cpp)
 rosbuild_add_executable(ego src/ego.cpp)
