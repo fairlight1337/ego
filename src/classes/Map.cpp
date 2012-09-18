@@ -8,19 +8,24 @@ Map::Map(ros::NodeHandle handleNode, string strCollisionMapTopic, unsigned int u
   
   m_cMapData = (char*)malloc(m_unXDimension * m_unYDimension);
   
-  for(unsigned int unX = 0; unX < m_unXDimension; unX++) {
-    for(unsigned int unY = 0; unY < m_unYDimension; unY++) {
-      // Per definition: -1: unknown, 0: free, 1: obstructed
-      setMapTile(unX, unY, -1);
-    }
-  }
+  clearMap();
 }
 
 Map::~Map() {
   free(m_cMapData);
 }
 
+void Map::clearMap(char cValue) {
+  // -1 is the default value for cValue.
+  for(unsigned int unX = 0; unX < m_unXDimension; unX++) {
+    for(unsigned int unY = 0; unY < m_unYDimension; unY++) {
+      setMapTile(unX, unY, cValue);
+    }
+  }
+}
+
 void Map::setMapTile(unsigned int unX, unsigned int unY, char cValue) {
+  // Per definition: -1: unknown, 0: free, 1: obstructed
   m_cMapData[unY * m_unYDimension + unX] = cValue;
 }
 
@@ -35,9 +40,9 @@ void Map::drawMap() {
   float fYOffset = 0.575;
   
   // NOTE: 2D textures are disabled here at the moment. When not
-  // disabling, the current camera frame texture is applied to the
-  // square, making it practically invisible. As long as there is no
-  // actual map available to display here, the textures will stay
+  // disabling them, the current camera frame texture is applied to
+  // the square, making it practically invisible. As long as there is
+  // no actual map available to display here, the textures will stay
   // disabled and the square is shown in plain white.
   
   glLoadIdentity();
