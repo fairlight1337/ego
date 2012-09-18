@@ -55,7 +55,6 @@ bool Visualization::startVisualization() {
   int nOpenGLMode = GLFW_WINDOW;
 
   if(glfwOpenWindow(nWidth, nHeight, nBitsPerComponent, nBitsPerComponent, nBitsPerComponent, nBitsPerComponent, nDepthBits, nStencilBits, nOpenGLMode)) {
-
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     float fAspectRatio = ((float)nHeight) / ((float)nWidth);
