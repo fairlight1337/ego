@@ -45,7 +45,7 @@ class Visualization {
   Map *m_mapMap;
 
  public:
-  Visualization();
+  Visualization(ros::NodeHandle handleNode);
   ~Visualization();
 
   bool startVisualization();

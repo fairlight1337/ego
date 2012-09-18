@@ -1,7 +1,7 @@
 #include "Map.h"
 
 
-Map::Map(unsigned int unXDimension, unsigned int unYDimension) {
+Map::Map(ros::NodeHandle handleNode, unsigned int unXDimension, unsigned int unYDimension) {
   // Initialize an unknown map
   m_unXDimension = unXDimension;
   m_unYDimension = unYDimension;

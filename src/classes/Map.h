@@ -28,6 +28,7 @@
 #ifndef __MAP_H__
 #define __MAP_H__
 
+#include <ros/ros.h>
 #include <GL/glfw.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -44,7 +45,7 @@ class Map {
   char *m_cMapData;
   
  public:
-  Map(unsigned int unXDimension, unsigned int unYDimension);
+  Map(ros::NodeHandle handleNode, unsigned int unXDimension, unsigned int unYDimension);
   ~Map();
   
   void setMapTile(unsigned int unX, unsigned int unY, char cValue);

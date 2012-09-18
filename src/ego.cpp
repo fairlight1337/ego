@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
   ROS_INFO("Initialized robot components.");
 
   // Initialize visualization and gui
-  Visualization vis;
+  Visualization vis(handleNode);
   vis.startVisualization();
   vis.setQuitCallback(guiQuit);
   vis.setKeyboardInputCallback(guiInputKeyboard);
