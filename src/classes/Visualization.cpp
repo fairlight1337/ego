@@ -27,7 +27,7 @@
 
 #include "Visualization.h"
 
-Visualization::Visualization(ros::NodeHandle handleNode) {
+Visualization::Visualization(ros::NodeHandle handleNode, string strCollisionMapTopic) {
   m_bInitialized = (glfwInit() == GL_TRUE ? true : false);
 
   if(m_bInitialized) {
@@ -36,7 +36,7 @@ Visualization::Visualization(ros::NodeHandle handleNode) {
     ROS_INFO("Running GLFW version %d.%d (rev %d)", nMajor, nMinor, nRev);
     m_imgCameraFrame.Data = NULL;
 
-    m_mapMap = new Map(handleNode, 100, 100);
+    m_mapMap = new Map(handleNode, strCollisionMapTopic, 100, 100);
   } else {
     ROS_INFO("GLFW failed to initialize.");
   }

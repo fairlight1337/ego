@@ -45,7 +45,7 @@ class Map {
   char *m_cMapData;
   
  public:
-  Map(ros::NodeHandle handleNode, unsigned int unXDimension, unsigned int unYDimension);
+  Map(ros::NodeHandle handleNode, string strCollisionMapTopic, unsigned int unXDimension, unsigned int unYDimension);
   ~Map();
   
   void setMapTile(unsigned int unX, unsigned int unY, char cValue);

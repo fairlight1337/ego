@@ -33,8 +33,12 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <boost/thread.hpp>
+#include <string>
 
 #include "Map.h"
+
+using namespace std;
+
 
 class Visualization {
  private:
@@ -45,7 +49,7 @@ class Visualization {
   Map *m_mapMap;
 
  public:
-  Visualization(ros::NodeHandle handleNode);
+  Visualization(ros::NodeHandle handleNode, string strCollisionMapTopic);
   ~Visualization();
 
   bool startVisualization();
