@@ -161,22 +161,37 @@ void Map::drawMap() {
   glLoadIdentity();
   glBindTexture(GL_TEXTURE_2D, m_unTextureMap);
   glLoadIdentity();
+
+  unsigned int unEdges = 16;
   
-  glTranslatef(0, 0, -2.5);
-  glBegin(GL_QUADS);
+  glTranslatef(fXOffset, fYOffset, -2.5);
+  glRotatef((m_tfRobotPose.rotation.z * 180.0 * (unEdges / 4)) / 3.1415, 0, 0, 1);
+
+  glBegin(GL_POLYGON);
   {
     glColor3f(1, 1, 1);
+    float fDegreePerEdge = 360 / unEdges;
+    float fDegreeStartAngle = 180;
+    float fRadiansPerEdge = (fDegreePerEdge / 180.0) * 3.1415;
+    float fRadiansStartAngle = (fDegreeStartAngle / 180.0) * 3.1415;
     
-    glVertex2f(fXOffset + fQuadWidth / 2, fYOffset + fQuadHeight / 2);
-    glTexCoord2d(0, 1);
-    glVertex2f(fXOffset + fQuadWidth / 2, fYOffset - fQuadHeight / 2);
-    glTexCoord2d(1, 1);
-    glVertex2f(fXOffset - fQuadWidth / 2, fYOffset - fQuadHeight / 2);
-    glTexCoord2d(1, 0);
-    glVertex2f(fXOffset - fQuadWidth / 2, fYOffset + fQuadHeight / 2);
-    glTexCoord2d(0, 0);
+    for(unsigned int unEdge = 0; unEdge < unEdges; unEdge++) {
+      float fXbiased = sin((float)unEdge * fRadiansPerEdge + fRadiansStartAngle);
+      float fYbiased = cos((float)unEdge * fRadiansPerEdge + fRadiansStartAngle);
+      float fXtexture = sin((float)unEdge * fRadiansPerEdge);
+      float fYtexture = cos((float)unEdge * fRadiansPerEdge);
+
+      glTexCoord2d((fXtexture + 0.5) * fQuadWidth, (fYtexture + 0.5) * fQuadHeight);
+      glVertex2f(fQuadWidth / 2 * fXbiased, fQuadHeight / 2 * fYbiased);
+    }
   }
   glEnd();
 
   m_mtxMapTexture.unlock();
+}
+
+void Map::setRobotPose(geometry_msgs::Transform tfRobotPose) {
+  m_tfRobotPose = tfRobotPose;
+
+  regenerateMapTexture();
 }

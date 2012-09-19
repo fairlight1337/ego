@@ -37,6 +37,7 @@
 #include <malloc.h>
 #include <boost/thread.hpp>
 #include <nav_msgs/OccupancyGrid.h>
+#include <geometry_msgs/Transform.h>
 
 using namespace std;
 
@@ -52,6 +53,7 @@ class Map {
   boost::mutex m_mtxTextureData;
   bool m_bInitialized;
   ros::Subscriber m_subMapTopic;
+  geometry_msgs::Transform m_tfRobotPose;
   
  public:
   Map(ros::NodeHandle handleNode, string strMapTopic, unsigned int unXDimension, unsigned int unYDimension);
@@ -64,6 +66,7 @@ class Map {
   char getMapTile(unsigned int unX, unsigned int unY);
   void regenerateMapTexture();
   void drawMap();
+  void setRobotPose(geometry_msgs::Transform tfRobotPose);
 };
 
 #endif /* __MAP_H__ */

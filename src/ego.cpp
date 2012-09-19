@@ -65,7 +65,7 @@ int main(int argc, char **argv) {
   
   // Initialize robot components
   RobotHead head;
-  RobotBase base(handleNode, "base_controller/command", "/odom_combined");
+  RobotBase base(handleNode, "base_controller/command", "/tf");
   Camera cam(handleNode, "/wide_stereo/left/image_color");
   ROS_INFO("Initialized robot components.");
 
@@ -86,6 +86,7 @@ int main(int argc, char **argv) {
 
     // Data allocation and memory operations
     vis.setCameraFrame(cam.getCameraFrame());
+    vis.setRobotPose(base.currentRobotPose());
 
     // Drawing camera image and interface
     vis.drawFrame();

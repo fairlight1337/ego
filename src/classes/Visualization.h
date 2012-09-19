@@ -34,6 +34,7 @@
 #include <GL/glu.h>
 #include <boost/thread.hpp>
 #include <string>
+#include <geometry_msgs/Transform.h>
 
 #include "Map.h"
 
@@ -62,6 +63,8 @@ class Visualization {
   void drawCameraFrame();
   void drawInterface();
   void drawMap();
+
+  void setRobotPose(geometry_msgs::Transform tfRobotPose);
 };
 
 #endif /* __VISUALIZATION_H__ */
