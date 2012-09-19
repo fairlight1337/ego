@@ -51,7 +51,31 @@ Map::~Map() {
 }
 
 void Map::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr &msg) {
-  cout << "Map received." << endl;
+  float fResolution = msg->info.resolution;
+  unsigned int nWidth = msg->info.width;
+  unsigned int nHeight = msg->info.height;
+
+  cout << "Map received. Dimensions: " << nWidth << "x" << nHeight << endl;
+  cout << "Resolution: " << fResolution << endl;
+  cout << "Origin: " << msg->info.origin.position.x / fResolution << ", " << msg->info.origin.position.y / fResolution << endl;
+
+  int nEffectiveMapWidth = min(nWidth, m_unXDimension);
+  int nEffectiveMapHeight = min(nHeight, m_unYDimension);
+  
+  int nLeftRightPadding = (nWidth - nEffectiveMapWidth) / 2;
+  int nTopBottomPadding = (nHeight - nEffectiveMapHeight) / 2;
+  
+  for(unsigned int unX = 0; unX < nEffectiveMapWidth; unX++) {
+    for(unsigned int unY = 0; unY < nEffectiveMapHeight; unY++) {
+      //int nDataIndex = (unY + nTopBottomPadding) * nEffectiveMapWidth + (unX + nLeftRightPadding);
+      int nDataIndex = (nTopBottomPadding * nWidth) + ((unY + 1) * nLeftRightPadding) + (unY * (nLeftRightPadding + nEffectiveMapWidth)) + unX;
+      
+      char cValue = msg->data[nDataIndex];
+      this->setMapTile(unX, unY, cValue);
+    }
+  }
+
+  regenerateMapTexture();
 }
 
 void Map::initializeMapDisplay() {

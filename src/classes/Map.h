@@ -28,6 +28,7 @@
 #ifndef __MAP_H__
 #define __MAP_H__
 
+#include <algorithm>
 #include <ros/ros.h>
 #include <GL/glfw.h>
 #include <GL/gl.h>
