@@ -32,20 +32,24 @@
 #include <geometry_msgs/Twist.h>
 #include <move_base_msgs/MoveBaseAction.h>
 #include <string>
+#include <tf/tfMessage.h>
+#include <geometry_msgs/Transform.h>
 
 using namespace std;
 
 
 class RobotBase {
  private:
-  ros::NodeHandle m_handleNode;
   ros::Publisher m_pubVelocity;
-  ros::Subscriber m_subRobotPoseTopic;
+  ros::Subscriber m_subTFTopic;
+  geometry_msgs::Transform m_tfRobotPose;
 
  public:
-  RobotBase(ros::NodeHandle handleNode, string strTopic, string strRobotPoseTopic);
+  RobotBase(ros::NodeHandle handleNode, string strTopic, string strTFTopic);
   ~RobotBase();
 
+  void robotPoseCallback(const tf::tfMessage::ConstPtr &msg);
+  geometry_msgs::Transform currentRobotPose();
   void sendVelocity(float fX, float fY, float fW);
 };
 

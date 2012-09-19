@@ -28,12 +28,27 @@
 #include "RobotBase.h"
 
 
-RobotBase::RobotBase(ros::NodeHandle handleNode, string strTopic, string strRobotPoseTopic) {
-  m_handleNode = handleNode;
-  m_pubVelocity = m_handleNode.advertise<geometry_msgs::Twist>(strTopic, 1);
+RobotBase::RobotBase(ros::NodeHandle handleNode, string strTopic, string strTFTopic) {
+  m_pubVelocity = handleNode.advertise<geometry_msgs::Twist>(strTopic, 1);
+  m_subTFTopic = handleNode.subscribe<tf::tfMessage>(strTFTopic, 10, &RobotBase::robotPoseCallback, this);
 }
 
 RobotBase::~RobotBase() {
+}
+
+void RobotBase::robotPoseCallback(const tf::tfMessage::ConstPtr &msg) {
+  string strFrameID = msg->transforms[0].header.frame_id;
+  string strChildFrameID = msg->transforms[0].child_frame_id;
+
+  if(strFrameID == "/map" && strChildFrameID == "/odom_combined") {
+    m_tfRobotPose.translation = msg->transforms[0].transform.translation;
+  } else if(strFrameID == "/odom_combined" && strChildFrameID == "/base_footprint") {
+    m_tfRobotPose.rotation = msg->transforms[0].transform.rotation;
+  }
+}
+
+geometry_msgs::Transform RobotBase::currentRobotPose() {
+  return m_tfRobotPose;
 }
 
 void RobotBase::sendVelocity(float fX, float fY, float fW) {
