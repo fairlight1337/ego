@@ -51,7 +51,7 @@ Map::~Map() {
 }
 
 void Map::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr &msg) {
-  cout << "Map" << endl;
+  cout << "Map received." << endl;
 }
 
 void Map::initializeMapDisplay() {
