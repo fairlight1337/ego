@@ -8,6 +8,8 @@ Map::Map(ros::NodeHandle handleNode, string strCollisionMapTopic, unsigned int u
   
   m_cMapData = (char*)malloc(m_unXDimension * m_unYDimension);  
   m_ucTextureData = (unsigned char*)malloc(m_unXDimension * m_unYDimension * 3);
+
+  m_subCollisionMapTopic = handleNode.subscribe<nav_msgs::OccupancyGrid>(strCollisionMapTopic, 10, &Map::collisionMapCallback, this);
   
   m_bInitialized = false;
 }
@@ -19,6 +21,10 @@ Map::~Map() {
     
     glDeleteTextures(1, &m_unTextureCollisionMap);
   }
+}
+
+void Map::collisionMapCallback(const nav_msgs::OccupancyGrid::ConstPtr &msg) {
+  cout << "Map" << endl;
 }
 
 void Map::initializeMapDisplay() {

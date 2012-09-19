@@ -35,6 +35,7 @@
 #include <iostream>
 #include <malloc.h>
 #include <boost/thread.hpp>
+#include <nav_msgs/OccupancyGrid.h>
 
 using namespace std;
 
@@ -49,11 +50,13 @@ class Map {
   boost::mutex m_mtxMapTexture;
   boost::mutex m_mtxTextureData;
   bool m_bInitialized;
+  ros::Subscriber m_subCollisionMapTopic;
   
  public:
   Map(ros::NodeHandle handleNode, string strCollisionMapTopic, unsigned int unXDimension, unsigned int unYDimension);
   ~Map();
 
+  void collisionMapCallback(const nav_msgs::OccupancyGrid::ConstPtr &msg);
   void initializeMapDisplay();
   void clearMap(char cValue = -1);
   void setMapTile(unsigned int unX, unsigned int unY, char cValue);

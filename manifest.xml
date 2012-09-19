@@ -21,6 +21,7 @@
   <depend package="image_transport"/>
   <depend package="sensor_msgs"/>
   <depend package="cv_bridge"/>
+  <depend package="nav_msgs"/>
 
 </package>
 
