@@ -49,7 +49,7 @@ class Visualization {
   Map *m_mapMap;
 
  public:
-  Visualization(ros::NodeHandle handleNode, string strCollisionMapTopic);
+  Visualization(ros::NodeHandle handleNode, string strMapTopic);
   ~Visualization();
 
   bool startVisualization();

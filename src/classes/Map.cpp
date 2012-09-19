@@ -1,7 +1,7 @@
 #include "Map.h"
 
 
-Map::Map(ros::NodeHandle handleNode, string strCollisionMapTopic, unsigned int unXDimension, unsigned int unYDimension) {
+Map::Map(ros::NodeHandle handleNode, string strMapTopic, unsigned int unXDimension, unsigned int unYDimension) {
   // Initialize an unknown map
   m_unXDimension = unXDimension;
   m_unYDimension = unYDimension;
@@ -9,7 +9,7 @@ Map::Map(ros::NodeHandle handleNode, string strCollisionMapTopic, unsigned int u
   m_cMapData = (char*)malloc(m_unXDimension * m_unYDimension);  
   m_ucTextureData = (unsigned char*)malloc(m_unXDimension * m_unYDimension * 3);
 
-  m_subCollisionMapTopic = handleNode.subscribe<nav_msgs::OccupancyGrid>(strCollisionMapTopic, 10, &Map::collisionMapCallback, this);
+  m_subMapTopic = handleNode.subscribe<nav_msgs::OccupancyGrid>(strMapTopic, 10, &Map::mapCallback, this);
   
   m_bInitialized = false;
 }
@@ -19,18 +19,18 @@ Map::~Map() {
     free(m_cMapData);
     free(m_ucTextureData);
     
-    glDeleteTextures(1, &m_unTextureCollisionMap);
+    glDeleteTextures(1, &m_unTextureMap);
   }
 }
 
-void Map::collisionMapCallback(const nav_msgs::OccupancyGrid::ConstPtr &msg) {
+void Map::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr &msg) {
   cout << "Map" << endl;
 }
 
 void Map::initializeMapDisplay() {
   // Prepare the GL texture for the map display
-  glGenTextures(1, &m_unTextureCollisionMap);
-  glBindTexture(GL_TEXTURE_2D, m_unTextureCollisionMap);
+  glGenTextures(1, &m_unTextureMap);
+  glBindTexture(GL_TEXTURE_2D, m_unTextureMap);
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_unXDimension, m_unYDimension, 0, GL_RGB, GL_UNSIGNED_BYTE, m_ucTextureData);
 
   clearMap();
@@ -92,7 +92,7 @@ void Map::regenerateMapTexture() {
   m_mtxMapTexture.lock();
   m_mtxTextureData.lock();
   
-  glBindTexture(GL_TEXTURE_2D, m_unTextureCollisionMap);
+  glBindTexture(GL_TEXTURE_2D, m_unTextureMap);
   gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGB8, m_unXDimension, m_unYDimension, GL_RGB, GL_UNSIGNED_BYTE, m_ucTextureData);
   
   m_mtxTextureData.unlock();
@@ -108,7 +108,7 @@ void Map::drawMap() {
   m_mtxMapTexture.lock();
   
   glLoadIdentity();
-  glBindTexture(GL_TEXTURE_2D, m_unTextureCollisionMap);
+  glBindTexture(GL_TEXTURE_2D, m_unTextureMap);
   
   glTranslatef(0, 0, -2.5);
   glBegin(GL_QUADS);

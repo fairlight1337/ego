@@ -46,17 +46,17 @@ class Map {
   unsigned int m_unYDimension;
   char *m_cMapData;
   unsigned char *m_ucTextureData;
-  GLuint m_unTextureCollisionMap;
+  GLuint m_unTextureMap;
   boost::mutex m_mtxMapTexture;
   boost::mutex m_mtxTextureData;
   bool m_bInitialized;
-  ros::Subscriber m_subCollisionMapTopic;
+  ros::Subscriber m_subMapTopic;
   
  public:
-  Map(ros::NodeHandle handleNode, string strCollisionMapTopic, unsigned int unXDimension, unsigned int unYDimension);
+  Map(ros::NodeHandle handleNode, string strMapTopic, unsigned int unXDimension, unsigned int unYDimension);
   ~Map();
 
-  void collisionMapCallback(const nav_msgs::OccupancyGrid::ConstPtr &msg);
+  void mapCallback(const nav_msgs::OccupancyGrid::ConstPtr &msg);
   void initializeMapDisplay();
   void clearMap(char cValue = -1);
   void setMapTile(unsigned int unX, unsigned int unY, char cValue);
