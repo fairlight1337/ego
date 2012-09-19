@@ -44,6 +44,7 @@ Visualization::Visualization(ros::NodeHandle handleNode, string strCollisionMapT
 
 Visualization::~Visualization() {
   if(m_bInitialized) {
+    glDeleteTextures(1, &m_unTexture);
     glfwCloseWindow();
     glfwTerminate();
   }
@@ -66,6 +67,8 @@ bool Visualization::startVisualization() {
     glEnable(GL_TEXTURE_2D);
 
     glGenTextures(1, &m_unTexture);
+
+    m_mapMap->initializeMapDisplay();
 
     return GL_TRUE;
   }

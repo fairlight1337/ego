@@ -6,13 +6,30 @@ Map::Map(ros::NodeHandle handleNode, string strCollisionMapTopic, unsigned int u
   m_unXDimension = unXDimension;
   m_unYDimension = unYDimension;
   
-  m_cMapData = (char*)malloc(m_unXDimension * m_unYDimension);
+  m_cMapData = (char*)malloc(m_unXDimension * m_unYDimension);  
+  m_ucTextureData = (unsigned char*)malloc(m_unXDimension * m_unYDimension * 3);
   
-  clearMap();
+  m_bInitialized = false;
 }
 
 Map::~Map() {
-  free(m_cMapData);
+  if(m_bInitialized) {
+    free(m_cMapData);
+    free(m_ucTextureData);
+    
+    glDeleteTextures(1, &m_unTextureCollisionMap);
+  }
+}
+
+void Map::initializeMapDisplay() {
+  // Prepare the GL texture for the map display
+  glGenTextures(1, &m_unTextureCollisionMap);
+  glBindTexture(GL_TEXTURE_2D, m_unTextureCollisionMap);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_unXDimension, m_unYDimension, 0, GL_RGB, GL_UNSIGNED_BYTE, m_ucTextureData);
+
+  clearMap();
+
+  m_bInitialized = true;
 }
 
 void Map::clearMap(char cValue) {
@@ -22,15 +39,58 @@ void Map::clearMap(char cValue) {
       setMapTile(unX, unY, cValue);
     }
   }
+
+  regenerateMapTexture();
 }
 
 void Map::setMapTile(unsigned int unX, unsigned int unY, char cValue) {
+  m_mtxTextureData.lock();
+  
   // Per definition: -1: unknown, 0: free, 1: obstructed
   m_cMapData[unY * m_unYDimension + unX] = cValue;
+
+  char cR = 0, cG = 0, cB = 0;
+  
+  if(cValue == -1) {
+    cR = 55;
+    cG = 55;
+    cB = 55;
+  } else if(cValue == 0) {
+    cR = 200;
+    cG = 200;
+    cB = 200;
+  } else {
+    cR = 0;
+    cG = 0;
+    cB = 0;
+  }
+
+  m_ucTextureData[(unY * m_unYDimension + unX) * 3 + 0] = cR;
+  m_ucTextureData[(unY * m_unYDimension + unX) * 3 + 1] = cG;
+  m_ucTextureData[(unY * m_unYDimension + unX) * 3 + 2] = cB;
+  
+  m_mtxTextureData.unlock();
 }
 
 char Map::getMapTile(unsigned int unX, unsigned int unY) {
-  return m_cMapData[unY * m_unYDimension + unX];
+  char cReturnvalue;
+  
+  m_mtxTextureData.lock();
+  cReturnvalue = m_cMapData[unY * m_unYDimension + unX];
+  m_mtxTextureData.unlock();
+  
+  return cReturnvalue;
+}
+
+void Map::regenerateMapTexture() {
+  m_mtxMapTexture.lock();
+  m_mtxTextureData.lock();
+  
+  glBindTexture(GL_TEXTURE_2D, m_unTextureCollisionMap);
+  gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGB8, m_unXDimension, m_unYDimension, GL_RGB, GL_UNSIGNED_BYTE, m_ucTextureData);
+  
+  m_mtxTextureData.unlock();
+  m_mtxMapTexture.unlock();
 }
 
 void Map::drawMap() {
@@ -39,28 +99,26 @@ void Map::drawMap() {
   float fXOffset = -0.89;
   float fYOffset = 0.575;
   
-  // NOTE: 2D textures are disabled here at the moment. When not
-  // disabling them, the current camera frame texture is applied to
-  // the square, making it practically invisible. As long as there is
-  // no actual map available to display here, the textures will stay
-  // disabled and the square is shown in plain white.
+  m_mtxMapTexture.lock();
   
   glLoadIdentity();
-  glDisable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, m_unTextureCollisionMap);
+  
   glTranslatef(0, 0, -2.5);
   glBegin(GL_QUADS);
   {
     glColor3f(1, 1, 1);
     
     glVertex2f(fXOffset + fQuadWidth / 2, fYOffset + fQuadHeight / 2);
-    //    glTexCoord2d(0, 1);
+    glTexCoord2d(0, 1);
     glVertex2f(fXOffset + fQuadWidth / 2, fYOffset - fQuadHeight / 2);
-    //    glTexCoord2d(1, 1);
+    glTexCoord2d(1, 1);
     glVertex2f(fXOffset - fQuadWidth / 2, fYOffset - fQuadHeight / 2);
-    //    glTexCoord2d(1, 0);
+    glTexCoord2d(1, 0);
     glVertex2f(fXOffset - fQuadWidth / 2, fYOffset + fQuadHeight / 2);
-    //    glTexCoord2d(0, 0);
+    glTexCoord2d(0, 0);
   }
   glEnd();
-  glEnable(GL_TEXTURE_2D);
+
+  m_mtxMapTexture.unlock();
 }

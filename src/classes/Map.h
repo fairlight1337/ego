@@ -34,6 +34,7 @@
 #include <GL/glu.h>
 #include <iostream>
 #include <malloc.h>
+#include <boost/thread.hpp>
 
 using namespace std;
 
@@ -43,14 +44,21 @@ class Map {
   unsigned int m_unXDimension;
   unsigned int m_unYDimension;
   char *m_cMapData;
+  unsigned char *m_ucTextureData;
+  GLuint m_unTextureCollisionMap;
+  boost::mutex m_mtxMapTexture;
+  boost::mutex m_mtxTextureData;
+  bool m_bInitialized;
   
  public:
   Map(ros::NodeHandle handleNode, string strCollisionMapTopic, unsigned int unXDimension, unsigned int unYDimension);
   ~Map();
 
+  void initializeMapDisplay();
   void clearMap(char cValue = -1);
   void setMapTile(unsigned int unX, unsigned int unY, char cValue);
   char getMapTile(unsigned int unX, unsigned int unY);
+  void regenerateMapTexture();
   void drawMap();
 };
 
