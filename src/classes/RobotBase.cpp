@@ -28,7 +28,7 @@
 #include "RobotBase.h"
 
 
-RobotBase::RobotBase(ros::NodeHandle handleNode, string strTopic) {
+RobotBase::RobotBase(ros::NodeHandle handleNode, string strTopic, string strRobotPoseTopic) {
   m_handleNode = handleNode;
   m_pubVelocity = m_handleNode.advertise<geometry_msgs::Twist>(strTopic, 1);
 }

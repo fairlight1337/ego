@@ -65,7 +65,7 @@ int main(int argc, char **argv) {
   
   // Initialize robot components
   RobotHead head;
-  RobotBase base(handleNode, "base_controller/command");
+  RobotBase base(handleNode, "base_controller/command", "/odom_combined");
   Camera cam(handleNode, "/wide_stereo/left/image_color");
   ROS_INFO("Initialized robot components.");
 

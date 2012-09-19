@@ -40,9 +40,10 @@ class RobotBase {
  private:
   ros::NodeHandle m_handleNode;
   ros::Publisher m_pubVelocity;
+  ros::Subscriber m_subRobotPoseTopic;
 
  public:
-  RobotBase(ros::NodeHandle handleNode, string strTopic);
+  RobotBase(ros::NodeHandle handleNode, string strTopic, string strRobotPoseTopic);
   ~RobotBase();
 
   void sendVelocity(float fX, float fY, float fW);
