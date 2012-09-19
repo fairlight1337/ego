@@ -36,7 +36,7 @@ Visualization::Visualization(ros::NodeHandle handleNode, string strMapTopic) {
     ROS_INFO("Running GLFW version %d.%d (rev %d)", nMajor, nMinor, nRev);
     m_imgCameraFrame.Data = NULL;
 
-    m_mapMap = new Map(handleNode, strMapTopic, 100, 100);
+    m_mapMap = new Map(handleNode, strMapTopic, 200, 200);
   } else {
     ROS_INFO("GLFW failed to initialize.");
   }
@@ -109,14 +109,13 @@ void Visualization::drawFrame() {
 }
 
 void Visualization::drawCameraFrame() {
-  glLoadIdentity();
-
   m_mtxCameraFrame.lock();
   
   if(m_imgCameraFrame.Data != NULL) {
     float fQuadHeight = 2;
     float fQuadWidth = fQuadHeight * m_imgCameraFrame.Width / m_imgCameraFrame.Height;
     
+    glLoadIdentity();
     glBindTexture(GL_TEXTURE_2D, m_unTexture);
     
     glTranslatef(0, 0, -2.65);

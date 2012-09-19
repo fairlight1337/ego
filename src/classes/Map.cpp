@@ -67,11 +67,11 @@ void Map::mapCallback(const nav_msgs::OccupancyGrid::ConstPtr &msg) {
   
   for(unsigned int unX = 0; unX < nEffectiveMapWidth; unX++) {
     for(unsigned int unY = 0; unY < nEffectiveMapHeight; unY++) {
-      //int nDataIndex = (unY + nTopBottomPadding) * nEffectiveMapWidth + (unX + nLeftRightPadding);
       int nDataIndex = (nTopBottomPadding * nWidth) + ((unY + 1) * nLeftRightPadding) + (unY * (nLeftRightPadding + nEffectiveMapWidth)) + unX;
+      //int nDataIndex = (nLeftRightPadding * nHeight) + ((unX + 1) * nTopBottomPadding) + (unX * (nTopBottomPadding + nEffectiveMapHeight)) + unY;
       
       char cValue = msg->data[nDataIndex];
-      this->setMapTile(unX, unY, cValue);
+      this->setMapTile((m_unYDimension - 1) - unY, (m_unXDimension - 1) - unX, cValue);
     }
   }
 
@@ -160,6 +160,7 @@ void Map::drawMap() {
   
   glLoadIdentity();
   glBindTexture(GL_TEXTURE_2D, m_unTextureMap);
+  glLoadIdentity();
   
   glTranslatef(0, 0, -2.5);
   glBegin(GL_QUADS);
