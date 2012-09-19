@@ -123,6 +123,7 @@ void Visualization::drawCameraFrame() {
     {
       glColor3f(1, 1, 1);
       
+      glTexCoord2d(0, 0);
       glVertex2f(fQuadWidth / 2, fQuadHeight / 2);
       glTexCoord2d(0, 1);
       glVertex2f(fQuadWidth / 2, -fQuadHeight / 2);
@@ -130,7 +131,6 @@ void Visualization::drawCameraFrame() {
       glVertex2f(-fQuadWidth / 2, -fQuadHeight / 2);
       glTexCoord2d(1, 0);
       glVertex2f(-fQuadWidth / 2, fQuadHeight / 2);
-      glTexCoord2d(0, 0);
     }
     glEnd();
   }
@@ -144,4 +144,8 @@ void Visualization::drawInterface() {
 
 void Visualization::drawMap() {
   m_mapMap->drawMap();
+}
+
+void Visualization::setRobotPose(geometry_msgs::Transform tfRobotPose) {
+  m_mapMap->setRobotPose(tfRobotPose);
 }
