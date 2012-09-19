@@ -22,6 +22,7 @@
   <depend package="sensor_msgs"/>
   <depend package="cv_bridge"/>
   <depend package="nav_msgs"/>
+  <depend package="tf"/>
 
 </package>
 
